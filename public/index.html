@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <title>聊天室</title>
+  <link rel="Bookmark" href="images/favicon.ico" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <link rel="icon" href="images/favicon.ico" />
+  <link rel="stylesheet" href="lib/jquery-mCustomScrollbar/css/jquery.mCustomScrollbar.min.css" />
+  <link rel="stylesheet" href="lib/jquery-emoji/css/jquery.emoji.css" />
+  <link rel="stylesheet" href="css/index.css" />
+  <script src="js/html2canvas.min.js"></script>
+  <script src="js/test1.js"></script>
+  <style>
+    .register_box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 380px;
+      height: 380px;
+      transform: translate(-50%, -50%);
+      border-radius: 4px;
+      background-color: #fff;
+      box-shadow: #999 0 2px 10px;
+    }
+
+    .register_box h3 {
+      text-align: center;
+      color: #333;
+      font-size: 24px;
+      font-weight: 400;
+      margin: 15px auto;
+    }
+
+    .input {
+      border: 1px solid #ccc;
+      padding: 7px 0px;
+      padding-left: 0px;
+      border-radius: 3px;
+      padding-left: 5px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+      -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+      transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+      width: 200px;
+    }
+
+    .register_box>div {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .register_box div>div {
+      display: inline-block;
+      margin: 0 20px;
+    }
+
+    #register_avatar {
+      width: 250px;
+    }
+
+    #register_avatar li {
+      width: 46px;
+      height: 46px;
+      display: inline-block;
+    }
+
+    #register_avatar li img {
+      width: 44px;
+      height: 44px;
+      margin: 2px;
+    }
+
+    .button {
+      text-align: center;
+    }
+
+    .button #register {
+      position: relative;
+      display: inline-block;
+      width: 200px;
+      box-sizing: border-box;
+      font-size: 14px;
+      text-align: center;
+      text-decoration: none;
+      color: #ffffff;
+      line-height: 2.55555556;
+      border-radius: 5px;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      overflow: hidden;
+      background-color: #66afe9;
+      border: none;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .button #register_login {
+      position: relative;
+      display: inline-block;
+      box-sizing: border-box;
+      font-size: 14px;
+      text-align: center;
+      text-decoration: none;
+      color: #ffffff;
+      line-height: 2.55555556;
+      border-radius: 5px;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+      margin-top: 5px;
+      width: 50px;
+      background-color: #cccccc;
+      margin-right: -25px;
+    }
+
+    .register_box li.now img {
+      border: 2px solid #1aad19;
+    }
+
+    .login_box {
+      height: 300px;
+    }
+
+    .login_box h3 {
+      line-height: 80px;
+    }
+
+    .login_box input {
+      width: 250px;
+      border: 1px solid #ccc;
+    }
+
+    .login_box p {
+      padding-left: 60px;
+    }
+
+    .login_box div {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .weui-btn {
+      display: inline-block;
+      width: 200px;
+    }
+
+    #loginBtn {
+      background: #66AFE9;
+    }
+
+    #registerBtn {
+      width: 50px;
+      background: #CCCCCC;
+      margin-left: 10px;
+    }
+
+    #bg_canvas {
+      position: absolute;
+      z-index: 500;
+      left: 0;
+      top: 0;
+    }
+
+    #bigimg {
+      display: none;
+      position: fixed;
+      background-color: rgba(194, 189, 189, 0.575);
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+      z-index: 499;
+      border: black solid 1px;
+      -webkit-box-align: center;
+      -webkit-box-pack: center;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 注册部分 -->
+  <div class="register_box" style="display: none;">
+    <h3>用户注册</h3>
+    <div>
+      <div>用户</div>
+      <input class="input" type="text" placeholder="登陆账号" id="register_username"><br>
+    </div>
+    <div>
+      <div>密码</div>
+      <input class="input" type="text" placeholder="登陆密码" id="register_password"><br>
+    </div>
+    <div id="sex">
+      <div>性别</div>
+      男&nbsp; <input type="radio" value="male" name="sex"> &nbsp; &nbsp;
+      女&nbsp; <input type="radio" value="female" name="sex">
+    </div>
+    <div>
+      <div>头像</div>
+      <ul id="register_avatar">
+        <li class="now"><img src="images/avatar01.jpg" alt="" /></li>
+        <li><img src="images/avatar02.jpg" alt="" /></li>
+        <li><img src="images/avatar03.jpg" alt="" /></li>
+        <li><img src="images/avatar04.jpg" alt="" /></li>
+        <li><img src="images/avatar05.jpg" alt="" /></li>
+        <li><img src="images/avatar06.jpg" alt="" /></li>
+        <li><img src="images/avatar07.jpg" alt="" /></li>
+        <li><img src="images/avatar08.jpg" alt="" /></li>
+        <li><img src="images/avatar09.jpg" alt="" /></li>
+        <li><img src="images/avatar10.jpg" alt="" /></li>
+      </ul>
+    </div>
+    <section class="button">
+      <input type="button" value="注册" id="register"> &nbsp;
+      <button id="register_login">登录</button>
+    </section>
+  </div>
+
+
+  <!-- 登陆部分 -->
+  <div class="login_box" style="display: block;">
+    <h3>用户登录</h3>
+    <p>用户名</p>
+    <input type="text" placeholder="请输入用户名" id="username" />
+    <p>密码</p>
+    <input type="password" placeholder="请输入密码" id="password" />
+    <div>
+      <button class="weui-btn" id="loginBtn">登录</button>
+      <button class="weui-btn" id="registerBtn">注册</button>
+    </div>
+
+  </div>
+
+  <!--视频聊天部分-->
+  <div class="video-container" style="display: none;">
+    <h1 id='user-id'> </h1>
+
+    <video id="video-local" autoplay style="float:left; display:inline"></video>
+    <img src="./images/videoOver.svg" class="video-over" />
+    <div id="videos" style="width: 400px; height: 800px; overflow: scroll; float:left; display:inline"></div>
+    <ul id="user-list" style="float:left; display:inline">
+      <li>用户列表</li>
+    </ul>
+  </div>
+
+
+  <!-- 聊天室部分 -->
+  <div class="container" style="display: none;">
+    <!-- 用户列表 -->
+    <div class="user-list">
+      <div class="header">
+        <div class="avatar">
+          <img class="img avatar_url" src="images/avatar02.jpg" alt="" />
+        </div>
+        <div class="info">
+          <!--  -->
+          <h3 class="username">咕咕雪</h3>
+        </div>
+      </div>
+      <div class="title">
+        <h3>用户列表</h3>
+      </div>
+      <ul id="user-item">
+        <!-- 
+          <li class="user">
+            <div class="avatar"><img src="images/avatar2.jpg" alt="" /></div>
+            <div class="name">清流</div>
+          </li> 
+           -->
+      </ul>
+
+    </div>
+    <!-- 聊天主窗口 -->
+    <div class="box">
+      <!-- 聊天窗口头部 -->
+      <div class="box-hd">
+        <h3>聊天室(<span id="userCount">99</span>)</h3>
+      </div>
+
+      <!-- 聊天窗口主体区域 -->
+      <div class="box-bd">
+        <!--
+          <div class="system">
+            <p class="message_system">
+              <span class="content">"往事随风"邀请你和"Boy"加入了群聊</span>
+            </p>
+          </div>
+          <div class="message-box">
+            <div class="my message">
+              <img class="avatar" src="images/avatar2.jpg" alt="" />
+              <div class="content">
+                <div style="margin-bottom: 3px;margin-right: 3px;">20/06/12 10:39</div>
+                <div class="bubble">
+                  <div class="bubble_cont">在干嘛</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="message-box">
+            <div class="other message">
+              <img class="avatar" src="images/avatar02.jpg" alt="" />
+              <div class="content">
+                <div style="margin-bottom: 3px;margin-right: 3px;">20/06/12 10:39</div>
+                <div class="nickname">小美 <span>20/06/12 10:40</span></div>
+                <div class="bubble">
+                  <div class="bubble_cont">吃饭</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
+      </div>
+
+      <!-- 聊天窗口底部区域 -->
+      <div class="box-ft">
+        <!-- 工具栏 -->
+        <div class="toolbar">
+          <a href="javascript:;" title="表情" class="face"></a>
+          <a href="javascript:;" title="截屏" class="screen-cut">
+          </a>
+          <a href="javascript:;" title="图片" class="file">
+            <label for="file"></label>
+            <input type="file" id="file" style="display: none;">
+          </a>
+        </div>
+        <!-- 内容输入区域 -->
+        <div class="content">
+          <!-- div添加一个属性：contenteditable 可编辑div文本内容-->
+          <div class="text" id="content" contenteditable></div>
+        </div>
+        <!-- 发送按钮 -->
+        <div class="action">
+          <span class="desc">按下Ctrl+Enter发送</span>
+          <!-- 给a标签加一个空js，消除a默认的返回顶部效果 -->
+          <a class="btn-send" id="btn-send" href="javascript:;">发送</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <canvas id="bg_canvas" width="100%" height="100%"></canvas>
+  <div id="bigimg"></div>
+
+  <!-- 引入socketio -->
+  <script src="js/jquery-1.12.4.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+
+  <script src="lib/jquery-mCustomScrollbar/script/jquery.mCustomScrollbar.min.js"></script>
+  <script src="lib/jquery-emoji/js/jquery.emoji.min.js"></script>
+  <script src="js/jcanvas.js"></script>
+  <script src="js/index.js"></script>
+</body>
+<script>
+
+</script>
+</html>
